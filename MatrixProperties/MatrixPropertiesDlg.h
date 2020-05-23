@@ -16,7 +16,6 @@ public:
 	int svd_hestenes(int, int, float*, float*, float *, float*);
 	float det(float** T, UINT32 N);
 	bool inverse(float** matrix, float** result, int size);
-	void MatrMultiply(int n, int m, float** matrix, float* vektor, float* res);
 	void RedrawAll(float mn, float mx);
 	void Mashtab(float arr[], int dim, float* mmin, float* mmax);
 
@@ -55,7 +54,7 @@ public:
 	CPen psevdo_pen;
 
 	int max_cond = 1.E+6;
-	int step = max_cond / 30;
+	int step = max_cond / 50;
 	static const int kolvo_iter = 15;
 
 	float xp = 0, yp = 0,				//коэфициенты пересчета

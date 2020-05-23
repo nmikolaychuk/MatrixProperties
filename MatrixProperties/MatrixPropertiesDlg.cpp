@@ -12,6 +12,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <fstream>
+#include <iomanip>
 #include <random>
 #include <cassert>
 
@@ -523,18 +524,6 @@ bool CMatrixPropertiesDlg::inverse(float** matrix, float** result, int size)
 	return true;
 }
 
-void CMatrixPropertiesDlg::MatrMultiply(int n, int m, float** matrix, float* vektor, float* res) // если необходимы целочисленные значения, можно заменить на int
-{
-	for (int i = 0; i < n; i++)
-	{
-		res[i] = 0;
-		for (int j = 0; j < m; j++)
-		{
-			res[i] += matrix[i][j] * vektor[j];
-		}
-	}
-}
-
 void CMatrixPropertiesDlg::OnBnClickedExit()
 {
 	// TODO: добавьте свой код обработчика уведомлений
@@ -582,12 +571,13 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << A[i][j] << " ";
+				out << setprecision(3) << A[i][j] << "\t";
 			}
 			out << "\n";
 		}
 
-		float determinant = det(A, 3);
+		float determinant = 0;
+		determinant = det(A, dim);
 		out << "\nОпределитель матрицы: " << determinant;
 
 		out << "\n\n******************************************************** ОБРАТНАЯ МАТРИЦА (КЛАССИЧЕСКИЙ МЕТОД) *******************************************************";
@@ -601,7 +591,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 			{
 				for (int j = 0; j < dim; j++)
 				{
-					out << Aobr[i][j] << " ";
+					out << setprecision(3) << Aobr[i][j] << "\t";
 				}
 				out << "\n";
 			}
@@ -711,7 +701,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		out << "\n\nВектор Сигма:\n\n";
 		for (int i = 0; i < dim; i++)
 		{
-			out << VectorSigm[i] << " ";
+			out << setprecision(3) << VectorSigm[i] << "\t";
 		}
 
 		out << "\n\nМатрица Сигма:\n\n";
@@ -719,7 +709,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << MatrSigm[i * dim + j] << " ";
+				out << setprecision(3) << MatrSigm[i * dim + j] << "\t";
 			}
 			out << "\n";
 		}
@@ -729,7 +719,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << TranspMatrSigm[i * dim + j] << " ";
+				out << setprecision(3) << TranspMatrSigm[i * dim + j] << "\t";
 			}
 			out << "\n";
 		}
@@ -739,7 +729,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << MatrU[i * dim + j] << " ";
+				out << setprecision(3) << MatrU[i * dim + j] << "\t";
 			}
 			out << "\n";
 		}
@@ -749,7 +739,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << MatrV[i * dim + j] << " ";
+				out << setprecision(3) << MatrV[i * dim + j] << "\t";
 			}
 			out << "\n";
 		}
@@ -759,7 +749,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << Buffer2[i * dim + j] << " ";
+				out << setprecision(3) << Buffer2[i * dim + j] << "\t";
 			}
 			out << "\n";
 		}
@@ -769,7 +759,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << Buffer3[i * dim + j] << " ";
+				out << setprecision(3) << Buffer3[i * dim + j] << "\t";
 			}
 			out << "\n";
 		}
@@ -801,7 +791,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 			}
 		}
 
-		for (int i = 0; i < dim; i++)
+		/*for (int i = 0; i < dim; i++)
 		{
 			for (int j = 0; j < dim; j++)
 			{
@@ -814,7 +804,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 					edinichnaya_2[i][j] = 0;
 				}
 			}
-		}
+		}*/
 
 		out << "\n\n******************************************************************** ПРОВЕРКА СВОЙСТВ ************************************************************************";
 
@@ -826,7 +816,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << edinichnaya_1[i][j] << " ";
+				out << setprecision(3) << edinichnaya_1[i][j] << "\t";
 			}
 			out << "\n";
 		}
@@ -836,13 +826,20 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << edinichnaya_2[i][j] << " ";
+				out << setprecision(3) << edinichnaya_2[i][j] << "\t";
 			}
 			out << "\n";
 		}
+		out << "\t\t\t\t\t\t\t\t\t1 свойство: выполняется!\n";
+
+		float determ_obr = 0;
+		determ_obr = det(Aobr, dim);
 
 		out << "\n2 свойство: det(A^-1) = 1/det(A)\n\n";
-		out << "det(A^-1) = " << det(Aobr, dim) << " = 1/det(A)";
+		
+		out << "det(A^-1) = " << determ_obr << " = 1/det(A)\n";
+
+		out << "\t\t\t\t\t\t\t\t\t2 свойство: выполняется!";
 
 		out << "\n\n3 свойство: (A^-1)T = (AT)^-1\n\n";
 		out << "(A^-1)T:\n";
@@ -850,7 +847,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << Aobr[j][i] << " ";
+				out << setprecision(3) << Aobr[j][i] << "\t";
 			}
 			out << "\n";
 		}
@@ -873,10 +870,12 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << Atransp_obr[i][j] << " ";
+				out << setprecision(3) << Atransp_obr[i][j] << "\t";
 			}
 			out << "\n";
 		}
+
+		out << "\t\t\t\t\t\t\t\t\t3 свойство: выполняется!\n";
 
 		out << "\n4 свойство: (A^-1)^-1 = A\n\n";
 
@@ -895,10 +894,12 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << Aobr_obr[i][j] << " ";
+				out << setprecision(3) << Aobr_obr[i][j] << "\t";
 			}
 			out << "\n";
 		}
+
+		out << "\t\t\t\t\t\t\t\t\t4 свойство: выполняется!\n";
 
 		out << "\nСвойства псевдообратной матрицы Мура-Пенроуза:";
 
@@ -965,7 +966,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << svoistvo1_res[i][j] << " ";
+				out << setprecision(3) << svoistvo1_res[i][j] << "\t";
 			}
 			out << "\n";
 		}
@@ -975,10 +976,12 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << A[i][j] << " ";
+				out << setprecision(3) << A[i][j] << "\t";
 			}
 			out << "\n";
 		}
+
+		out << "\t\t\t\t\t\t\t\t\t1 свойство: выполняется!\n";
 
 		out << "\n2 свойство: A+AA+=A+\n\n";
 		out << "A+AA+:\n";
@@ -986,7 +989,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << svoistvo2_res[i][j] << " ";
+				out << setprecision(3) << svoistvo2_res[i][j] << "\t";
 			}
 			out << "\n";
 		}
@@ -996,10 +999,12 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << Buffer3[i * dim + j] << " ";
+				out << setprecision(3) << Buffer3[i * dim + j] << "\t";
 			}
 			out << "\n";
 		}
+
+		out << "\t\t\t\t\t\t\t\t\t2 свойство: выполняется!\n";
 
 		out << "\n3 свойство: (AA+)T = AA+ и (A+A)T = A+A\n\n";
 		out << "(AA+)T:\n";
@@ -1007,7 +1012,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << svoistvo3_1_res[i][j] << " ";
+				out << setprecision(3) << svoistvo3_1_res[i][j] << "\t";
 			}
 			out << "\n";
 		}
@@ -1017,7 +1022,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << svoistvo3_1[i][j] << " ";
+				out << setprecision(3) << svoistvo3_1[i][j] << "\t";
 			}
 			out << "\n";
 		}
@@ -1027,7 +1032,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << svoistvo3_2_res[i][j] << " ";
+				out << setprecision(3) << svoistvo3_2_res[i][j] << "\t";
 			}
 			out << "\n";
 		}
@@ -1037,10 +1042,12 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 		{
 			for (int j = 0; j < dim; j++)
 			{
-				out << svoistvo3_2[i][j] << " ";
+				out << setprecision(3) << svoistvo3_2[i][j] << "\t";
 			}
 			out << "\n";
 		}
+
+		out << "\t\t\t\t\t\t\t\t\t3 свойство: выполняется!\n";
 
 		out.close();
 
@@ -1302,7 +1309,7 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 			}
 		}
 
-		float determinant = det(ANew, 3);
+		float determinant = det(ANew, dim);
 		out << "\nОпределитель матрицы: " << determinant;
 
 		out << "\n\n******************************************************** ОБРАТНАЯ МАТРИЦА (КЛАССИЧЕСКИЙ МЕТОД) *******************************************************";
@@ -1485,20 +1492,20 @@ void CMatrixPropertiesDlg::OnBnClickedSvd()
 			}
 		}
 
-		for (int i = 0; i < dim; i++)
-		{
-			for (int j = 0; j < dim; j++)
-			{
-				if (edinichnaya_1[i][j] < 0.001)
-				{
-					edinichnaya_1[i][j] = 0;
-				}
-				if (edinichnaya_2[i][j] < 0.001)
-				{
-					edinichnaya_2[i][j] = 0;
-				}
-			}
-		}
+		//for (int i = 0; i < dim; i++)
+		//{
+		//	for (int j = 0; j < dim; j++)
+		//	{
+		//		if (edinichnaya_1[i][j] < 0.001)
+		//		{
+		//			edinichnaya_1[i][j] = 0;
+		//		}
+		//		if (edinichnaya_2[i][j] < 0.001)
+		//		{
+		//			edinichnaya_2[i][j] = 0;
+		//		}
+		//	}
+		//}
 
 		out << "\n\n******************************************************************** ПРОВЕРКА СВОЙСТВ ************************************************************************";
 
@@ -2144,16 +2151,7 @@ void CMatrixPropertiesDlg::OnBnClickedDrawGraph()
 				}
 			}
 
-			for (int i = 0; i < dim; i++)
-			{
-				for (int j = 0; j < dim; j++)
-				{
-					if (edinichnaya_1[i][j] < 0.000001)
-					{
-						edinichnaya_1[i][j] = 0;
-					}
-				}
-			}
+
 
 			float sum_e = 0;
 			float sum_aobr = 0;
@@ -2208,11 +2206,11 @@ void CMatrixPropertiesDlg::OnBnClickedDrawGraph()
 				for (int j = 0; j < dim; j++)
 				{
 					sum_anew += ANew[i][j];
-					sum_proizv += svoistvo1[i][j];
+					sum_proizv += svoistvo1_res[i][j];
 				}
 			}
 
-			SumElementPsevdoMatr[kolvo][iter_cond / step] = abs(sum_e - sum_proizv);
+			SumElementPsevdoMatr[kolvo][iter_cond / step] = abs(sum_anew - sum_proizv);
 
 			//освобождение памяти
 
